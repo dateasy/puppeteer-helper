@@ -28,7 +28,7 @@ const helper = {
     findElementOption: async () => {
         for (let index = 0; index < helper.options.length; index++) {
             const element = helper.options[index];
-            if (element.text.toString().toLowerCase().trim() === helper.input.toString().toLowerCase().trim() )
+            if (helper.normalizeString(element.text.toString().toLowerCase().trim()) === helper.normalizeString(helper.input.toString().toLowerCase().trim()) )
             {
                 await helper.ElementHandle.select(helper.selector,element.value);
                 return;
@@ -47,6 +47,26 @@ const helper = {
                     };
                 });
         }, selector);
+    },
+
+    normalizeString: (inputText) => {
+
+        let from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+        to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+        mapping = {};
+
+    for(let i = 0, j = from.length; i < j; i++ )
+        mapping[ from.charAt( i ) ] = to.charAt( i );
+
+        let retString = [];
+        for( let i = 0, j = inputText.length; i < j; i++ ) {
+            let c = inputText.charAt( i );
+            if( mapping.hasOwnProperty( inputText.charAt( i ) ) )
+            retString.push( mapping[ c ] );
+            else
+            retString.push( c );
+        }
+        return retString.join( '' );
     }
 
 }
