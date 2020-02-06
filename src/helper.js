@@ -28,7 +28,7 @@ const helper = {
     findElementOption: async () => {
         for (let index = 0; index < helper.options.length; index++) {
             const element = options[index];
-            if (element.name.toString().toLowerCase().trim() === helper.input.toString().toLowerCase().trim() )
+            if (element.text.toString().toLowerCase().trim() === helper.input.toString().toLowerCase().trim() )
             {
                 await helper.ElementHandle.select(helper.selector,element.value);
                 return;
